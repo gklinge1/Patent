@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH -J SingleThreadedMatching
+#SBATCH -J namecleaning
 #SBATCH -p general
 #SBATCH -o python%j.txt
 #SBATCH -e python_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=48:00:00
+#SBATCH --time=4:00:00
 #SBATCH --mail-user=gklinge@iu.edu
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mem 100G
@@ -20,11 +20,11 @@ python -m venv ~/myenv
 source ~/myenv/bin/activate
 
 # Install necessary Python packages
-pip install fuzzywuzzy matplotlib python-Levenshtein
+pip install csv unicodedata re 
 
 #move to the directory from where you submitted the job
 cd $SLURM_SUBMIT_DIR
 
 #run program/commands
 
-srun python Quartz_Single_Threaded_Matcher.py
+srun python Company_name_cleaner_november5.py
