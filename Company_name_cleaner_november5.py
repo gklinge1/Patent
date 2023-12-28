@@ -220,6 +220,11 @@ def Light_abbreviations(name):
         name = re.sub(abbr, full, name)
 
     return name.strip()
+
+def corp_phrase(name):
+    pattern = r'(a corp|corp of|corporation of|a delaware).*'
+    return re.sub(pattern, '', name, flags=re.IGNORECASE)
+
 # Main function to clean and standardize company names
 
 def clean_name(name):
@@ -227,6 +232,8 @@ def clean_name(name):
     name = name.lower()\
     # Normalize non-ASCII characters to ASCII\
     name = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode()\
+    #removes the corp of and other phrases
+    name = corp_phrase(name)\
     # Remove extra spaces from name\
     name = ' '.join(name.split())\
     # Retain only alphanumeric characters and certain punctuation\
@@ -243,10 +250,10 @@ def clean_name(name):
     name = remove_company_suffix(name)
     #Removing non alphanumeric
     name = remove_non_alphanumeric(name)
-    #rRemoving spaces
-    name = remove_spaces(name)
     #Remove the international terms
     name = remove_international_terms(name)
+    #Removing spaces
+    name = remove_spaces(name)
     # Remove single letters that stand alone
     #name = re.sub(r'\b[a-z]\b', '', name)
     return name
