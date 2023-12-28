@@ -1,0 +1,30 @@
+#!/bin/bash
+#SBATCH -J fuzz-matching
+#SBATCH -p general
+#SBATCH -o python%j.txt
+#SBATCH -e python_%j.err
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --time=48:00:00
+#SBATCH --mail-user=gklinge@iu.edu
+#SBATCH --mail-type=BEGIN,END
+#SBATCH --mem 100G
+#SBATCH -A r00638
+
+# Load Python module
+module load python
+
+# Create and activate the virtual environment
+python -m venv ~/myenv
+source ~/myenv/bin/activate
+
+# Install necessary Python packages
+pip install fuzzywuzzy matplotlib python-Levenshtein
+
+#move to the directory from where you submitted the job
+cd $SLURM_SUBMIT_DIR
+
+#run program/commands
+
+srun python Quartz_Single_Threaded_Matcher.py
