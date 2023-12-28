@@ -16,7 +16,7 @@ def binary_search(data, key, value):
             high = mid - 1
     return None
 
-def get_marshall_score(name, match, score):
+def Length_Score(name, match, score):
     delta_length = abs(len(name) - len(match))
     return delta_length * score
 
@@ -32,8 +32,8 @@ def fuzzy_match(row, data_to_match, column_name, thread_index, total_threads):
     try:
         if thread_index == (hash(row[column_name]) % total_threads):
             fuzzy_match_result, score = process.extractOne(row[column_name], [x[column_name] for x in data_to_match], scorer=fuzz.token_sort_ratio)
-            marshall_score = get_marshall_score(row[column_name], fuzzy_match_result, score)
-            return row, fuzzy_match_result, score, marshall_score
+            Length_score = Length_Score(row[column_name], fuzzy_match_result, score)
+            return row, fuzzy_match_result, score, Length_score
     except Exception as e:
         print(f"Error in fuzzy_match: {e}")
         print(f"Row Data: {row}")
@@ -129,8 +129,8 @@ def match_and_combine_data(
             for future in futures:
                 result = future.result()
                 if result:
-                    row, fuzzy_match_result, score, marshall_score = result
-                    if marshall_score > 100:
+                    row, fuzzy_match_result, score, Length_Score = result
+                    if Length_Score_score > 100:
                         fuzzy_match_index = next((index for index, match_row in enumerate(data2_uncleaned_match) if match_row[uncleaned_name_match_col] == fuzzy_match_result), None)
                         combined_row = {**row, **data2_uncleaned_match[fuzzy_match_index], 'Match_Type': 'Fuzzy'}
                         writer.writerow(combined_row)
