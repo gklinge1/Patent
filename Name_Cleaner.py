@@ -1,3 +1,4 @@
+import sys
 import csv
 import unicodedata
 import re
@@ -280,12 +281,11 @@ K: 10
 L: 11
 M: 12
 """
-COLUMN_TO_READ = 1  
-COLUMN_TO_COPY_TO = 2
-NEW_COLUMN_TITLE = "assignee_cleaned"
-
-input_file = 'C:/Users/marsh/Patent Tracking/Uncleaned/capitaliq_cusip.csv'
-output_file = 'C:/Users/marsh/Patent Tracking/Cleaned/Cleaned_capital_cusip.csv'
+# Read arguments from the command line
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+COLUMN_TO_READ = int(sys.argv[3])
+COLUMN_TO_COPY_TO = int(sys.argv[4])
 
 unique_names = []
 full_data = []
@@ -293,24 +293,16 @@ full_data = []
 with open(input_file, 'r', encoding='utf-8') as infile:
     csv_reader = csv.reader(infile)
     total_rows = sum(1 for row in csv.reader(open(input_file, 'r', encoding='utf-8')))
-    infile.seek(0)  # Reset the file pointer to the beginning
+    infile.seek(0)
     for i, row in enumerate(csv_reader, 1):
         if len(row) >= COLUMN_TO_READ:
             original_name = row[COLUMN_TO_READ]
             cleaned_name = clean_name(original_name)
-
-            # Add cleaned name to unique_names list
             unique_names.append(cleaned_name)
-
-            # Print the original company name and percentage completion
-            percentage_complete = (i / total_rows) * 100
-            print(f"Row {i} ({percentage_complete:.2f}% complete): {original_name}")
-
-            # Insert cleaned name to the specified column
+            print(f"Row {i} ({(i / total_rows) * 100:.2f}% complete): {original_name}")
             row.insert(COLUMN_TO_COPY_TO, cleaned_name)
             full_data.append(row)
 
-# Write the data to a new CSV file
 with open(output_file, 'w', newline='', encoding='utf-8') as outfile:
     csv_writer = csv.writer(outfile)
     for row in full_data:
