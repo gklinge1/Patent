@@ -223,7 +223,7 @@ def Light_abbreviations(name):
     return name.strip()
 
 def corp_phrase(name):
-    pattern = r'(a corp|corp of|corporation of|a delaware).*'
+    pattern = r'(\(a corp| a corp|corp of|corporation of|\(a delaware).*'
     return re.sub(pattern, '', name, flags=re.IGNORECASE)
 
 # Main function to clean and standardize company names
