@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=6:00:00
+#SBATCH --time=8:00:00
 #SBATCH --mail-user=gklinge@iu.edu
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mem 100G
@@ -25,38 +25,38 @@ source ~/myenv/bin/activate
 # Define file paths and column numbers for each job in the array
 case "$SLURM_ARRAY_TASK_ID" in
     1)
-        INPUT_FILE="/path/to/assignee_all.csv"
-        OUTPUT_FILE="/path/to/cleaned_assignee_all.csv"
+        INPUT_FILE="/N/u/gklinge/Quartz/assignees_dirty_all.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_assignee_all.csv"
         COLUMN_TO_READ=1  # Assuming 'assignee' is the column to clean
-        COLUMN_TO_COPY_TO=2
+        COLUMN_TO_COPY_TO=3
         ;;
     2)
-        INPUT_FILE="/path/to/assignee_all_unique.csv"
-        OUTPUT_FILE="/path/to/cleaned_assignee_all_unique.csv"
+        INPUT_FILE="/N/u/gklinge/Quartz/assignees_unique_dirty.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_assignee_all_unique.csv"
         COLUMN_TO_READ=1
-        COLUMN_TO_COPY_TO=2
+        COLUMN_TO_COPY_TO=3
         ;;
     3)
-        INPUT_FILE="/path/to/capitalcusip.csv"
-        OUTPUT_FILE="/path/to/cleaned_capitalcusip.csv"
+        INPUT_FILE="/N/u/gklinge/Quartz/capitaliq_cusip_dirty.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_capitalcusip.csv"
         COLUMN_TO_READ=1  # Assuming 'company name' is the column to clean
         COLUMN_TO_COPY_TO=2
         ;;
     4)
-        INPUT_FILE="/path/to/csrp_permco.csv"
-        OUTPUT_FILE="/path/to/cleaned_csrp_permco.csv"
-        COLUMN_TO_READ=1
+        INPUT_FILE="/N/u/gklinge/Quartz/crsp_permco_dirty.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_csrp_permco.csv"
+        COLUMN_TO_READ=0
         COLUMN_TO_COPY_TO=2
         ;;
     5)
-        INPUT_FILE="/path/to/gvkey.csv"
-        OUTPUT_FILE="/path/to/cleaned_gvkey.csv"
+        INPUT_FILE="/N/u/gklinge/Quartz/gvkey_dirty.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_gvkey.csv"
         COLUMN_TO_READ=1
         COLUMN_TO_COPY_TO=2
         ;;
     6)
-        INPUT_FILE="/path/to/SEC_CIK.csv"
-        OUTPUT_FILE="/path/to/cleaned_SEC_CIK.csv"
+        INPUT_FILE="/N/u/gklinge/Quartz/sec_cik_dirty.csv"
+        OUTPUT_FILE="/N/u/gklinge/Quartz/cleaned_SEC_CIK.csv"
         COLUMN_TO_READ=1
         COLUMN_TO_COPY_TO=2
         ;;
